@@ -3,21 +3,22 @@ import { useState } from "react";
 type ClassificacaoIMC = {
   label: string;
   cor: string;
+  bg: string;
   descricao: string;
 };
 
 function classificarIMC(imc: number): ClassificacaoIMC {
   if (imc < 18.5)
-    return { label: "Abaixo do Peso", cor: "#3b82f6", descricao: "Você está abaixo do peso ideal. Consulte um nutricionista." };
+    return { label: "Abaixo do Peso", cor: "#2563eb", bg: "#eff6ff", descricao: "Você está abaixo do peso ideal. Consulte um nutricionista." };
   if (imc < 25)
-    return { label: "Peso Normal", cor: "#22c55e", descricao: "Parabéns! Seu peso está dentro da faixa saudável." };
+    return { label: "Peso Normal", cor: "#059669", bg: "#ecfdf5", descricao: "Parabéns! Seu peso está dentro da faixa saudável." };
   if (imc < 30)
-    return { label: "Sobrepeso", cor: "#f59e0b", descricao: "Você está acima do peso ideal. Atenção à alimentação e exercícios." };
+    return { label: "Sobrepeso", cor: "#d97706", bg: "#fffbeb", descricao: "Você está acima do peso ideal. Atenção à alimentação e exercícios." };
   if (imc < 35)
-    return { label: "Obesidade Grau I", cor: "#f97316", descricao: "Procure orientação médica para controle do peso." };
+    return { label: "Obesidade Grau I", cor: "#ea580c", bg: "#fff7ed", descricao: "Procure orientação médica para controle do peso." };
   if (imc < 40)
-    return { label: "Obesidade Grau II", cor: "#ef4444", descricao: "Situação requer acompanhamento médico especializado." };
-  return { label: "Obesidade Grau III", cor: "#991b1b", descricao: "Situação grave. Busque ajuda médica imediatamente." };
+    return { label: "Obesidade Grau II", cor: "#dc2626", bg: "#fef2f2", descricao: "Situação requer acompanhamento médico especializado." };
+  return { label: "Obesidade Grau III", cor: "#9f1239", bg: "#fff1f2", descricao: "Situação grave. Busque ajuda médica imediatamente." };
 }
 
 export default function App() {
@@ -62,7 +63,7 @@ export default function App() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "linear-gradient(135deg, #1e3a5f 0%, #0f2744 100%)",
+      background: "linear-gradient(135deg, #ecfdf5 0%, #d1fae5 40%, #a7f3d0 100%)",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -71,35 +72,52 @@ export default function App() {
     }}>
       <div style={{
         background: "#ffffff",
-        borderRadius: "20px",
+        borderRadius: "24px",
         padding: "40px",
         width: "100%",
         maxWidth: "440px",
-        boxShadow: "0 25px 60px rgba(0,0,0,0.4)",
+        boxShadow: "0 20px 60px rgba(5, 150, 105, 0.15), 0 4px 16px rgba(5, 150, 105, 0.08)",
+        border: "1px solid #d1fae5",
       }}>
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
-          <div style={{ fontSize: "48px", marginBottom: "8px" }}>⚖️</div>
+          <div style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "64px",
+            height: "64px",
+            borderRadius: "16px",
+            background: "linear-gradient(135deg, #10b981, #059669)",
+            fontSize: "30px",
+            marginBottom: "16px",
+            boxShadow: "0 4px 12px rgba(5, 150, 105, 0.35)",
+          }}>
+            ⚖️
+          </div>
           <h1 style={{
-            fontSize: "28px",
-            fontWeight: "700",
-            color: "#1e3a5f",
+            fontSize: "26px",
+            fontWeight: "800",
+            color: "#064e3b",
             margin: "0 0 6px 0",
+            letterSpacing: "-0.5px",
           }}>
             Calculadora de IMC
           </h1>
-          <p style={{ color: "#64748b", fontSize: "14px", margin: 0 }}>
+          <p style={{ color: "#6b7280", fontSize: "14px", margin: 0 }}>
             Índice de Massa Corporal
           </p>
         </div>
 
         <form onSubmit={calcular}>
-          <div style={{ marginBottom: "20px" }}>
+          <div style={{ marginBottom: "18px" }}>
             <label style={{
               display: "block",
               fontWeight: "600",
-              color: "#334155",
+              color: "#065f46",
               marginBottom: "8px",
-              fontSize: "14px",
+              fontSize: "13px",
+              textTransform: "uppercase",
+              letterSpacing: "0.5px",
             }}>
               Peso (kg)
             </label>
@@ -113,16 +131,26 @@ export default function App() {
               max="500"
               style={{
                 width: "100%",
-                padding: "12px 16px",
-                borderRadius: "10px",
-                border: "2px solid #e2e8f0",
+                padding: "13px 16px",
+                borderRadius: "12px",
+                border: "2px solid #d1fae5",
                 fontSize: "16px",
                 outline: "none",
-                transition: "border-color 0.2s",
+                transition: "border-color 0.2s, box-shadow 0.2s",
                 boxSizing: "border-box",
+                background: "#f9fafb",
+                color: "#111827",
               }}
-              onFocus={e => { e.target.style.borderColor = "#1e3a5f"; }}
-              onBlur={e => { e.target.style.borderColor = "#e2e8f0"; }}
+              onFocus={e => {
+                e.target.style.borderColor = "#10b981";
+                e.target.style.boxShadow = "0 0 0 3px rgba(16,185,129,0.12)";
+                e.target.style.background = "#fff";
+              }}
+              onBlur={e => {
+                e.target.style.borderColor = "#d1fae5";
+                e.target.style.boxShadow = "none";
+                e.target.style.background = "#f9fafb";
+              }}
             />
           </div>
 
@@ -130,9 +158,11 @@ export default function App() {
             <label style={{
               display: "block",
               fontWeight: "600",
-              color: "#334155",
+              color: "#065f46",
               marginBottom: "8px",
-              fontSize: "14px",
+              fontSize: "13px",
+              textTransform: "uppercase",
+              letterSpacing: "0.5px",
             }}>
               Altura (m)
             </label>
@@ -146,16 +176,26 @@ export default function App() {
               max="3"
               style={{
                 width: "100%",
-                padding: "12px 16px",
-                borderRadius: "10px",
-                border: "2px solid #e2e8f0",
+                padding: "13px 16px",
+                borderRadius: "12px",
+                border: "2px solid #d1fae5",
                 fontSize: "16px",
                 outline: "none",
-                transition: "border-color 0.2s",
+                transition: "border-color 0.2s, box-shadow 0.2s",
                 boxSizing: "border-box",
+                background: "#f9fafb",
+                color: "#111827",
               }}
-              onFocus={e => { e.target.style.borderColor = "#1e3a5f"; }}
-              onBlur={e => { e.target.style.borderColor = "#e2e8f0"; }}
+              onFocus={e => {
+                e.target.style.borderColor = "#10b981";
+                e.target.style.boxShadow = "0 0 0 3px rgba(16,185,129,0.12)";
+                e.target.style.background = "#fff";
+              }}
+              onBlur={e => {
+                e.target.style.borderColor = "#d1fae5";
+                e.target.style.boxShadow = "none";
+                e.target.style.background = "#f9fafb";
+              }}
             />
           </div>
 
@@ -178,18 +218,22 @@ export default function App() {
               type="submit"
               style={{
                 flex: 1,
-                background: "#1e3a5f",
+                background: "linear-gradient(135deg, #10b981, #059669)",
                 color: "#fff",
                 border: "none",
-                borderRadius: "10px",
+                borderRadius: "12px",
                 padding: "14px",
-                fontSize: "16px",
-                fontWeight: "600",
+                fontSize: "15px",
+                fontWeight: "700",
                 cursor: "pointer",
-                transition: "background 0.2s",
+                transition: "opacity 0.2s, transform 0.1s",
+                boxShadow: "0 4px 12px rgba(5,150,105,0.35)",
+                letterSpacing: "0.3px",
               }}
-              onMouseOver={e => { (e.target as HTMLButtonElement).style.background = "#162d4a"; }}
-              onMouseOut={e => { (e.target as HTMLButtonElement).style.background = "#1e3a5f"; }}
+              onMouseOver={e => { (e.target as HTMLButtonElement).style.opacity = "0.9"; }}
+              onMouseOut={e => { (e.target as HTMLButtonElement).style.opacity = "1"; }}
+              onMouseDown={e => { (e.target as HTMLButtonElement).style.transform = "scale(0.98)"; }}
+              onMouseUp={e => { (e.target as HTMLButtonElement).style.transform = "scale(1)"; }}
             >
               Calcular
             </button>
@@ -198,18 +242,18 @@ export default function App() {
               onClick={limpar}
               style={{
                 flex: 1,
-                background: "#f1f5f9",
-                color: "#475569",
-                border: "none",
-                borderRadius: "10px",
+                background: "#f0fdf4",
+                color: "#065f46",
+                border: "2px solid #bbf7d0",
+                borderRadius: "12px",
                 padding: "14px",
-                fontSize: "16px",
+                fontSize: "15px",
                 fontWeight: "600",
                 cursor: "pointer",
                 transition: "background 0.2s",
               }}
-              onMouseOver={e => { (e.target as HTMLButtonElement).style.background = "#e2e8f0"; }}
-              onMouseOut={e => { (e.target as HTMLButtonElement).style.background = "#f1f5f9"; }}
+              onMouseOver={e => { (e.target as HTMLButtonElement).style.background = "#dcfce7"; }}
+              onMouseOut={e => { (e.target as HTMLButtonElement).style.background = "#f0fdf4"; }}
             >
               Limpar
             </button>
@@ -219,18 +263,22 @@ export default function App() {
         {resultado && (
           <div style={{
             marginTop: "28px",
-            background: "#f8fafc",
-            borderRadius: "14px",
+            background: resultado.classificacao.bg,
+            borderRadius: "16px",
             padding: "24px",
             textAlign: "center",
-            border: `2px solid ${resultado.classificacao.cor}`,
+            border: `2px solid ${resultado.classificacao.cor}22`,
           }}>
+            <div style={{ fontSize: "12px", fontWeight: "700", color: resultado.classificacao.cor, textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px" }}>
+              Seu IMC
+            </div>
             <div style={{
-              fontSize: "48px",
-              fontWeight: "800",
+              fontSize: "52px",
+              fontWeight: "900",
               color: resultado.classificacao.cor,
               lineHeight: 1,
-              marginBottom: "8px",
+              marginBottom: "12px",
+              fontVariantNumeric: "tabular-nums",
             }}>
               {resultado.imc.toFixed(2)}
             </div>
@@ -239,18 +287,19 @@ export default function App() {
               background: resultado.classificacao.cor,
               color: "#fff",
               borderRadius: "20px",
-              padding: "4px 16px",
-              fontSize: "14px",
-              fontWeight: "600",
+              padding: "5px 18px",
+              fontSize: "13px",
+              fontWeight: "700",
               marginBottom: "12px",
+              letterSpacing: "0.3px",
             }}>
               {resultado.classificacao.label}
             </div>
             <p style={{
-              color: "#475569",
+              color: "#374151",
               fontSize: "14px",
               margin: 0,
-              lineHeight: "1.5",
+              lineHeight: "1.6",
             }}>
               {resultado.classificacao.descricao}
             </p>
@@ -259,31 +308,36 @@ export default function App() {
 
         <div style={{
           marginTop: "28px",
-          borderTop: "1px solid #e2e8f0",
+          borderTop: "1px solid #d1fae5",
           paddingTop: "20px",
         }}>
           <p style={{
-            fontWeight: "600",
-            color: "#334155",
-            fontSize: "13px",
-            marginBottom: "10px",
+            fontWeight: "700",
+            color: "#065f46",
+            fontSize: "12px",
+            marginBottom: "12px",
+            textTransform: "uppercase",
+            letterSpacing: "0.5px",
           }}>
-            Tabela de Referência:
+            Tabela de Referência
           </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "7px" }}>
             {[
-              { faixa: "Menor que 18,5", label: "Abaixo do Peso", cor: "#3b82f6" },
-              { faixa: "18,5 – 24,9", label: "Peso Normal", cor: "#22c55e" },
-              { faixa: "25,0 – 29,9", label: "Sobrepeso", cor: "#f59e0b" },
-              { faixa: "30,0 – 34,9", label: "Obesidade Grau I", cor: "#f97316" },
-              { faixa: "35,0 – 39,9", label: "Obesidade Grau II", cor: "#ef4444" },
-              { faixa: "40,0 ou mais", label: "Obesidade Grau III", cor: "#991b1b" },
+              { faixa: "Menor que 18,5", label: "Abaixo do Peso", cor: "#2563eb" },
+              { faixa: "18,5 – 24,9",    label: "Peso Normal",    cor: "#059669" },
+              { faixa: "25,0 – 29,9",    label: "Sobrepeso",      cor: "#d97706" },
+              { faixa: "30,0 – 34,9",    label: "Obesidade Grau I",  cor: "#ea580c" },
+              { faixa: "35,0 – 39,9",    label: "Obesidade Grau II", cor: "#dc2626" },
+              { faixa: "40,0 ou mais",   label: "Obesidade Grau III",cor: "#9f1239" },
             ].map(item => (
               <div key={item.label} style={{
                 display: "flex",
                 alignItems: "center",
                 gap: "10px",
                 fontSize: "12px",
+                background: "#f9fafb",
+                borderRadius: "8px",
+                padding: "6px 10px",
               }}>
                 <div style={{
                   width: "10px",
@@ -292,8 +346,8 @@ export default function App() {
                   background: item.cor,
                   flexShrink: 0,
                 }} />
-                <span style={{ color: "#64748b", minWidth: "110px" }}>{item.faixa}</span>
-                <span style={{ color: "#334155", fontWeight: "600" }}>{item.label}</span>
+                <span style={{ color: "#6b7280", minWidth: "110px" }}>{item.faixa}</span>
+                <span style={{ color: "#111827", fontWeight: "600" }}>{item.label}</span>
               </div>
             ))}
           </div>
