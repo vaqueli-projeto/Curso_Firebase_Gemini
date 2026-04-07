@@ -7,6 +7,11 @@ type ClassificacaoIMC = {
   descricao: string;
 };
 
+/**
+ * Retorna a classificação, cores e descrição baseada no valor do IMC.
+ * @param imc Valor numérico do Índice de Massa Corporal
+ * @returns Objeto com metadados para exibição da categoria do IMC
+ */
 function classificarIMC(imc: number): ClassificacaoIMC {
   if (imc < 18.5)
     return { label: "Abaixo do Peso", cor: "#2563eb", bg: "#eff6ff", descricao: "Você está abaixo do peso ideal. Consulte um nutricionista." };
@@ -22,16 +27,19 @@ function classificarIMC(imc: number): ClassificacaoIMC {
 }
 
 export default function App() {
+  // Estados para controlar os inputs e o resultado da calculadora
   const [peso, setPeso] = useState("");
   const [altura, setAltura] = useState("");
   const [resultado, setResultado] = useState<{ imc: number; classificacao: ClassificacaoIMC } | null>(null);
   const [erro, setErro] = useState("");
 
+  // Função principal para validar os dados e calcular o IMC
   function calcular(e: React.FormEvent) {
-    e.preventDefault();
+    e.preventDefault(); // Previne o recarregamento da página
     setErro("");
     setResultado(null);
 
+    // Normaliza a entrada para garantir que use ponto decimal em vez de vírgula
     const p = parseFloat(peso.replace(",", "."));
     const a = parseFloat(altura.replace(",", "."));
 
@@ -39,6 +47,7 @@ export default function App() {
       setErro("Por favor, preencha os campos corretamente.");
       return;
     }
+    // Validações de limites físicos razoáveis
     if (p <= 0 || p > 500) {
       setErro("Peso inválido. Insira um valor entre 1 e 500 kg.");
       return;
@@ -48,11 +57,13 @@ export default function App() {
       return;
     }
 
+    // Cálculo da fórmula: Peso / Altura²
     const imc = p / (a * a);
     const classificacao = classificarIMC(imc);
     setResultado({ imc, classificacao });
   }
 
+  // Reseta todos os campos e estados para o valor inicial
   function limpar() {
     setPeso("");
     setAltura("");
